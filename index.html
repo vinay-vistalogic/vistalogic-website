@@ -360,26 +360,57 @@
         <!-- ═══════════════════ HERO ═══════════════════ -->
         <section class="hero">
 
-            <!-- LEFT: copy from index1 -->
-            <div class="hero-content">
-                <h1>
-                    Building the Future of<br>
-                    <span class="gradient-text">Precision Wellness & Fitness</span>
-                </h1>
-                <p class="hero-description">
-                    We're creating intelligent wellness and fitness monitoring systems that transform how people understand and optimize their wellbeing. Our platform delivers personalized recommendations powered by AI, helping you make smarter choices. From individuals to enterprises, we're making your health insights accessible to everyone.
-                </p>
-                <div class="cta-group">
-                    <a href="#contact" class="btn btn-primary">Get in Touch</a>
-                    <a href="#mission" class="btn btn-secondary">Our Mission</a>
+            <div class="hero-flex">
+                <div class="hero-content">
+                    <h1>
+                        Building the Future of<br>
+                        <span class="gradient-text">Precision Wellness & Fitness</span>
+                    </h1>
+                    <p class="hero-description">
+                        We're creating intelligent wellness and fitness monitoring systems that transform how people understand and optimize their wellbeing. Our platform delivers personalized recommendations powered by AI, helping you make smarter choices. From individuals to enterprises, we're making your health insights accessible to everyone.
+                    </p>
+                    <div class="cta-group">
+                        <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                        <a href="#mission" class="btn btn-secondary">Our Mission</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="visual-glow"></div>
+                    <div class="anatomy-panel"></div>
                 </div>
             </div>
-
-            <!-- RIGHT: anatomy infographic from index2 -->
-            <div class="hero-visual">
-                <div class="visual-glow"></div>
-
-                <div class="anatomy-panel">
+        .hero-flex {
+            display: flex;
+            align-items: stretch;
+            gap: 48px;
+        }
+        .hero-content {
+            flex: 1 1 0;
+            min-width: 320px;
+        }
+        .hero-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 420px;
+            max-height: 100%;
+        }
+        .anatomy-panel {
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (max-width: 900px) {
+            .hero-flex {
+                flex-direction: column;
+                gap: 32px;
+            }
+            .hero-visual {
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
 
                     <!-- ── LEFT callouts: [chip]──[line]──[●] pointing right onto body ── -->
 
