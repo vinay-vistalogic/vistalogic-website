@@ -69,29 +69,24 @@
 
         .logo-section {
             display: flex;
-            align-items: center;
-            gap: 18px;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .company-name {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.6em;
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .logo-img {
+            max-width: 180px;
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .company-tagline {
-            font-size: 1em;
+            font-size: 0.7em;
             color: var(--text-dim);
-            letter-spacing: 0.12em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             font-weight: 500;
             font-family: 'Manrope', sans-serif;
-            margin-left: 0;
         }
 
         .status {
@@ -390,21 +385,17 @@
             gap: 30px;
         }
 
-        .footer-company {
+        .footer-logo-section {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
         }
 
-        .footer-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.4em;
-            color: var(--text);
-        }
-
-        .footer-legal {
-            font-size: 0.75em;
-            color: var(--text-dim);
+        .footer-logo-img {
+            max-width: 160px;
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .footer-links {
@@ -535,6 +526,10 @@
                 text-align: center;
             }
 
+            .footer-logo-section {
+                align-items: center;
+            }
+
             .footer-links {
                 flex-direction: column;
                 gap: 15px;
@@ -549,7 +544,7 @@
         <!-- Header -->
         <header>
             <div class="logo-section">
-                <img src="assets/logo.png" alt="VistaLogic Logo" style="max-width: 120px; width: 100%; height: auto; display: block;" />
+                <img src="logo.png" alt="VistaLogic Logo" class="logo-img" />
                 <div class="company-tagline">Innovation Through Precision & Clarity</div>
             </div>
             <div class="status">
@@ -561,7 +556,6 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
-                <!-- <div class="label">Health Technology Company</div> -->
                 <h1>
                     Building the Future of<br>
                     <span class="gradient-text">Precision Health</span>
@@ -651,9 +645,8 @@
         <!-- Footer -->
         <footer>
             <div class="footer-content">
-                <div class="footer-company">
-                    <div class="footer-logo">VistaLogic Solutions</div>
-                        <img src="assets/logo.png" alt="VistaLogic Logo" style="max-width: 180px; width: 100%; height: auto; display: block; margin: 0 auto;" />
+                <div class="footer-logo-section">
+                    <img src="logo.png" alt="VistaLogic Logo" class="footer-logo-img" />
                 </div>
                 <nav class="footer-links">
                     <a href="#mission">Mission</a>
