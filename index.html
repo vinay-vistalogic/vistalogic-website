@@ -43,140 +43,226 @@
             max-width: 1200px; margin: 0 auto; padding: 0 40px;
         }
 
-        /* Header */
+        /* ── HEADER ── */
         header {
             padding: 40px 0;
             display: flex; justify-content: space-between; align-items: center;
             animation: fadeDown 0.8s ease-out;
         }
-
         .logo-section { display: flex; flex-direction: column; gap: 10px; }
         .logo-img { max-width: 265px; width: 100%; height: auto; display: block; }
         .company-tagline { font-size: 0.7em; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
-
         .status { display: flex; align-items: center; gap: 10px; font-size: 0.75em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
         .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
 
-        /* Hero */
-        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 0 0 60px; }
+        /* ── HERO ── */
+        .hero {
+            min-height: 88vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 0 0 60px;
+        }
 
-        .hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-content { max-width: 580px; }
 
-        .hero-content { max-width: 650px; }
-
+        /* ── RIGHT: anatomy visual ── */
+        /*
+         * anatomy-panel: 340px wide
+         * anatomy-svg:   200px wide, centred → left offset = (340-200)/2 = 70px
+         *
+         * SVG body silhouette x-range (viewBox 0-200):
+         *   Left arm outer at mid-torso:  x ≈ 30  → panel px = 70+30 =  100px from left
+         *   Right arm outer at mid-torso: x ≈ 170 → panel px = 70+170 = 240px from left → 100px from right
+         *
+         * Left callouts (chip→line→dot, anchored left:0):
+         *   Dot must land at body left edge (~100px from panel-left).
+         *   chip width ≈ 62px + line-width gives total; we use line widths to tune landing.
+         *
+         * Right callouts (dot→line→chip, anchored right:0):
+         *   Dot must land at body right edge (~100px from panel-right).
+         *
+         * Vertical positions (top = SVG-y × scale where scale ≈ 1 since svg height auto):
+         *   Brain:  SVG y≈26  → top: 16px   (subtract ~10px = half chip height)
+         *   Temp:   SVG y≈92  → top: 82px   (right shoulder)
+         *   Heart:  SVG y≈138 → top: 126px
+         *   SpO2:   SVG y≈120 → top: 110px  (chest right side)
+         *   Lung:   SVG y≈160 → top: 150px  (lung lower lobe, left side)
+         *   Steps:  SVG y≈310 → top: 300px  (mid thigh)
+         */
         .hero-visual {
-            position: relative; display: flex; align-items: center; justify-content: center;
-            min-height: 520px;
-        }
-
-        /* ── VITAL-OS DASHBOARD INFOGRAPHIC ── */
-        .vital-dashboard {
             position: relative;
-            width: 420px; height: 470px;
-            animation: fadeIn 1s ease-out 0.4s both;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            min-height: 620px;
         }
 
-        .dashboard-ring {
-            position: absolute; inset: 0; border-radius: 20px;
-            background: linear-gradient(135deg, rgba(0,212,170,0.07), rgba(0,153,255,0.07));
-            border: 1px solid rgba(0,212,170,0.2);
-            box-shadow: 0 0 80px rgba(0,212,170,0.10), inset 0 0 40px rgba(0,212,170,0.04);
+        .visual-glow {
+            position: absolute;
+            width: 420px; height: 420px;
+            background: radial-gradient(circle, rgba(0,212,170,0.1) 0%, transparent 68%);
+            border-radius: 50%;
+            right: 0; top: 50%; transform: translateY(-50%);
+            animation: glowPulse 4s ease-in-out infinite;
+            pointer-events: none;
         }
 
-        .dashboard-inner {
-            position: relative; z-index: 2;
-            padding: 26px 24px 20px;
-            height: 100%; display: flex; flex-direction: column; gap: 12px;
+        .anatomy-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 340px;
+            flex-shrink: 0;
         }
 
-        /* Top bar */
-        .dash-header { display: flex; align-items: center; justify-content: space-between; }
-        .dash-title { font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.14em; color: var(--primary); font-weight: 600; }
-        .dash-live { display: flex; align-items: center; gap: 6px; font-size: 0.65em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
-        .dash-live-dot { width: 6px; height: 6px; background: #ff4d6d; border-radius: 50%; animation: pulse 1.4s ease-in-out infinite; }
+        .anatomy-svg {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 18px rgba(0,212,170,0.25));
+            animation: bodyFloat 6s ease-in-out infinite;
+        }
 
-        /* Main metric */
-        .metric-main { display: flex; align-items: flex-end; gap: 14px; }
-        .metric-label { font-size: 0.63em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px; }
-        .metric-value { font-family: 'DM Serif Display', serif; font-size: 3em; line-height: 1; color: var(--text); letter-spacing: -0.03em; }
-        .metric-unit { font-size: 0.8em; color: var(--text-dim); font-weight: 400; margin-left: 3px; }
-        .metric-delta { font-size: 0.7em; color: var(--primary); font-weight: 600; margin-bottom: 6px; padding: 3px 9px; background: rgba(0,212,170,0.1); border-radius: 20px; white-space: nowrap; }
+        /* ── Callout system ── */
+        .callout {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .callout-dot {
+            width: 6px; height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(0,212,170,0.9);
+        }
+        .callout-line { height: 1px; flex-shrink: 0; }
+        .callout-chip {
+            background: rgba(6,16,30,0.94);
+            border: 1px solid rgba(0,212,170,0.28);
+            border-radius: 7px;
+            padding: 5px 10px;
+            white-space: nowrap;
+            backdrop-filter: blur(12px);
+        }
+        .chip-lbl {
+            font-size: 0.55em; color: var(--text-dim);
+            letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 1px;
+        }
+        .chip-val { font-size: 0.78em; font-weight: 700; line-height: 1; }
+        .cv-teal  { color: #00d4aa; }
+        .cv-blue  { color: #4db8ff; }
+        .cv-amber { color: #f0c040; }
 
-        /* ECG */
-        .ecg-container { position: relative; height: 54px; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
-        .ecg-svg { width: 200%; height: 100%; animation: scrollEcg 3s linear infinite; }
-        @keyframes scrollEcg { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        /* LEFT callouts: chip — line — dot (flex-direction: row) */
+        /* Dot lands at body left silhouette. Panel=340px, SVG=200px centred → SVG left edge at 70px.
+           Body left arm outer ≈ SVG x=30, so panel x ≈ 70+30 = 100px.
+           chip (~62px) + line (32px) + dot (6px) = 100px ✓ */
+        .c-brain { top: 16px;  left: 0; flex-direction: row; }
+        .c-heart { top: 126px; left: 0; flex-direction: row; }
+        .c-lung  { top: 150px; left: 0; flex-direction: row; }
 
-        /* Mini cards */
-        .mini-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .mini-card { padding: 12px 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; display: flex; flex-direction: column; gap: 5px; transition: border-color 0.3s; }
-        .mini-card:hover { border-color: rgba(0,212,170,0.3); }
-        .mini-icon { font-size: 1.1em; line-height: 1; }
-        .mini-val { font-size: 1.05em; font-weight: 700; color: var(--text); line-height: 1; }
-        .mini-lbl { font-size: 0.6em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+        /* RIGHT callouts: dot — line — chip (flex-direction: row-reverse) */
+        /* Dot lands at body right silhouette ≈ 100px from right edge.
+           chip (~62px) + line (32px) + dot (6px) = 100px ✓ */
+        .c-temp  { top: 82px;  right: 0; flex-direction: row-reverse; }
+        .c-spo2  { top: 110px; right: 0; flex-direction: row-reverse; }
+        .c-steps { top: 300px; right: 0; flex-direction: row-reverse; }
 
-        /* Progress */
-        .progress-section { display: flex; flex-direction: column; gap: 9px; }
-        .progress-row { display: flex; flex-direction: column; gap: 4px; }
-        .progress-meta { display: flex; justify-content: space-between; align-items: center; }
-        .progress-name { font-size: 0.67em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
-        .progress-pct { font-size: 0.67em; color: var(--text); font-weight: 600; }
-        .progress-track { height: 4px; background: rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; border-radius: 10px; animation: growBar 1.6s ease-out both; }
-        @keyframes growBar { from { width: 0 !important; } }
-        .fill-green  { background: linear-gradient(90deg, #00d4aa, #00ffc8); }
-        .fill-blue   { background: linear-gradient(90deg, #0099ff, #00cfff); }
-        .fill-purple { background: linear-gradient(90deg, #9b59b6, #c56eff); }
+        /* ── ECG strip (below body figure) ── */
+        .ecg-strip {
+            margin-top: 14px; width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(0,212,170,0.17);
+            border-radius: 9px; padding: 10px 12px 7px;
+        }
+        .ecg-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .ecg-label { font-size: 0.56em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
+        .ecg-bpm-pill {
+            display: flex; align-items: center; gap: 4px;
+            background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.25);
+            border-radius: 20px; padding: 2px 9px;
+        }
+        .ecg-bpm-val  { font-size: 0.78em; font-weight: 700; color: var(--primary); }
+        .ecg-bpm-unit { font-size: 0.56em; color: var(--text-dim); font-weight: 500; }
+        .ecg-svg  { width: 100%; height: 40px; display: block; }
+        .ecg-path { fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+        .ecg-glow { fill: none; stroke: var(--primary); stroke-width: 5; opacity: 0.17; filter: blur(3px); stroke-linecap: round; stroke-linejoin: round; }
+        .ecg-anim { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawECG 2.8s ease-in-out infinite; }
 
-        /* AI chip */
-        .ai-chip { display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; background: linear-gradient(135deg, rgba(0,212,170,0.07), rgba(0,153,255,0.07)); border: 1px solid rgba(0,212,170,0.2); border-radius: 10px; }
-        .ai-chip-icon { font-size: 1em; flex-shrink: 0; margin-top: 1px; }
-        .ai-chip-text { font-size: 0.69em; color: var(--text-dim); line-height: 1.5; }
-        .ai-chip-text strong { color: var(--primary); font-weight: 600; }
+        /* ── Wellness score pill ── */
+        .score-pill {
+            margin-top: 9px;
+            display: flex; align-items: center; gap: 11px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,212,170,0.18);
+            border-radius: 9px; padding: 9px 12px; width: 100%;
+        }
+        .score-ring-wrap { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
+        .score-ring-svg  { width: 40px; height: 40px; transform: rotate(-90deg); }
+        .ring-bg  { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 4; }
+        .ring-fill {
+            fill: none; stroke: url(#ringGrad);
+            stroke-width: 4; stroke-linecap: round;
+            stroke-dasharray: 107; stroke-dashoffset: 107;
+            animation: ringFill 2s ease-out 0.6s both;
+        }
+        .score-num-inside {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7em; font-weight: 800; color: var(--primary);
+        }
+        .score-text-block h4 { font-size: 0.73em; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+        .score-text-block p  { font-size: 0.58em; color: var(--text-dim); line-height: 1.4; }
 
-        /* Floating badge */
-        .float-badge {
-            position: absolute; top: -18px; right: -18px;
-            width: 72px; height: 72px; border-radius: 50%;
+        /* ── TYPOGRAPHY ── */
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2em, 5vw, 3.8em);
+            font-weight: 400; line-height: 1.12;
+            margin-bottom: 28px; letter-spacing: -0.02em;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+        .gradient-text {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 8px 30px rgba(0,212,170,0.35);
-            animation: floatBadge 4s ease-in-out infinite; z-index: 10;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .float-badge-val { font-size: 0.95em; font-weight: 700; color: var(--darker); line-height: 1; }
-        .float-badge-lbl { font-size: 0.48em; color: rgba(5,11,20,0.7); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
-        @keyframes floatBadge { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } }
-
-        /* Orbit dots */
-        .dot-tl { position: absolute; top: 24px; left: -34px; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,170,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1em; animation: floatOrbit 5s ease-in-out infinite; }
-        .dot-bl { position: absolute; bottom: 44px; left: -40px; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,153,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.3em; animation: floatOrbit 5s ease-in-out infinite; animation-delay: 1.5s; }
-
-        /* Typography & buttons */
-        h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2em, 5vw, 3.8em); font-weight: 400; line-height: 1.12; margin-bottom: 28px; letter-spacing: -0.02em; animation: fadeIn 0.8s ease-out 0.5s both; }
-        .gradient-text { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .hero-description { font-size: clamp(1em, 2vw, 1.15em); line-height: 1.7; color: var(--text-dim); max-width: 650px; margin-bottom: 40px; font-weight: 400; animation: fadeIn 0.8s ease-out 0.7s both; }
-
+        .hero-description {
+            font-size: clamp(1em, 2vw, 1.15em); line-height: 1.7;
+            color: var(--text-dim); max-width: 520px;
+            margin-bottom: 40px; font-weight: 400;
+            animation: fadeIn 0.8s ease-out 0.7s both;
+        }
         .cta-group { display: flex; gap: 20px; flex-wrap: wrap; animation: fadeIn 0.8s ease-out 0.9s both; }
-
-        .btn { padding: 18px 36px; font-family: 'Manrope', sans-serif; font-size: 0.9em; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border: none; cursor: pointer; transition: all 0.3s ease; border-radius: 2px; }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--darker); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,212,170,0.3); }
+        .btn {
+            padding: 18px 36px; font-family: 'Manrope', sans-serif;
+            font-size: 0.9em; font-weight: 600; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            border: none; cursor: pointer; transition: all 0.3s ease; border-radius: 2px;
+        }
+        .btn-primary  { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--darker); }
+        .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,212,170,0.3); }
         .btn-secondary { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.25); }
         .btn-secondary:hover { border-color: var(--primary); background: rgba(0,212,170,0.08); transform: translateY(-2px); }
 
-        /* Mission */
+        /* ── MISSION ── */
         .mission { padding: 100px 0; text-align: center; }
         .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(2em, 5vw, 3em); margin-bottom: 30px; letter-spacing: -0.02em; }
         .section-description { font-size: 1.15em; line-height: 1.8; color: var(--text-dim); max-width: 700px; margin: 0 auto 60px; }
-
         .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 80px; }
         .value-card { text-align: left; padding: 40px 35px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; transition: all 0.4s ease; }
         .value-card:hover { border-color: rgba(0,212,170,0.3); transform: translateY(-5px); background: rgba(255,255,255,0.04); }
         .value-number { font-size: 0.85em; color: var(--primary); margin-bottom: 20px; font-weight: 600; letter-spacing: 0.1em; }
-        .value-title { font-size: 1.3em; font-weight: 600; margin-bottom: 15px; color: var(--text); }
-        .value-desc { color: var(--text-dim); line-height: 1.7; }
+        .value-title  { font-size: 1.3em; font-weight: 600; margin-bottom: 15px; color: var(--text); }
+        .value-desc   { color: var(--text-dim); line-height: 1.7; }
 
-        /* Product */
+        /* ── PRODUCT ── */
         .product-preview { padding: 100px 0; text-align: center; }
         .product-box { margin: 60px auto 0; padding: 60px 50px; background: linear-gradient(135deg, rgba(0,212,170,0.05), rgba(0,153,255,0.05)); border: 1px solid rgba(0,212,170,0.2); border-radius: 4px; }
         .product-name { font-family: 'DM Serif Display', serif; font-size: 2.2em; margin-bottom: 20px; letter-spacing: -0.02em; }
@@ -184,50 +270,62 @@
         .product-features { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px; }
         .feature-tag { padding: 10px 24px; background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.3); border-radius: 50px; font-size: 0.85em; color: var(--primary); font-weight: 500; }
 
-        /* Contact */
+        /* ── CONTACT ── */
         .contact { padding: 100px 0 120px; text-align: center; }
         .contact-box { margin: 0 auto; padding: 60px 50px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
         .contact h2 { font-family: 'DM Serif Display', serif; font-size: 2.5em; margin-bottom: 20px; letter-spacing: -0.02em; }
-        .contact p { color: var(--text-dim); margin-bottom: 40px; font-size: 1.1em; line-height: 1.7; }
-        .email-form { display: flex; gap: 15px; max-width: 500px; margin: 0 auto; }
+        .contact p  { color: var(--text-dim); margin-bottom: 40px; font-size: 1.1em; line-height: 1.7; }
+        .email-form  { display: flex; gap: 15px; max-width: 500px; margin: 0 auto; }
         .email-input { flex: 1; padding: 18px 25px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.95em; transition: all 0.3s ease; }
         .email-input:focus { outline: none; border-color: var(--primary); background: rgba(255,255,255,0.08); }
         .email-input::placeholder { color: var(--text-dim); }
 
-        /* Footer */
+        /* ── FOOTER ── */
         footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.08); }
         .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; }
         .footer-logo-section { display: flex; flex-direction: column; gap: 8px; }
-        .footer-logo-img { max-width: 160px; width: 100%; height: auto; display: block; }
-        .footer-links { display: flex; gap: 40px; }
-        .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9em; transition: color 0.3s ease; }
+        .footer-logo-img  { max-width: 160px; width: 100%; height: auto; display: block; }
+        .footer-links     { display: flex; gap: 40px; }
+        .footer-links a   { color: var(--text-dim); text-decoration: none; font-size: 0.9em; transition: color 0.3s ease; }
         .footer-links a:hover { color: var(--primary); }
         .copyright { width: 100%; text-align: center; margin-top: 40px; font-size: 0.8em; color: var(--text-dim); }
 
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.15); } }
-        @keyframes floatOrbit { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        /* ── ANIMATIONS ── */
+        @keyframes fadeIn    { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeDown  { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse     { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.15); } }
+        @keyframes bodyFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+        @keyframes organHeartbeat {
+            0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 3px  rgba(0,212,170,0.4));  }
+            50%       { transform: scale(1.14); filter: drop-shadow(0 0 10px rgba(0,212,170,0.85)); }
+        }
+        @keyframes organGlow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @keyframes drawECG {
+            0%   { stroke-dashoffset: 600; opacity: 1; }
+            70%  { stroke-dashoffset: 0;   opacity: 1; }
+            88%  { stroke-dashoffset: 0;   opacity: 0; }
+            100% { stroke-dashoffset: 600; opacity: 0; }
+        }
+        @keyframes ringFill { to { stroke-dashoffset: 20; } }
+
+        .organ-heart { animation: organHeartbeat 1s ease-in-out infinite; transform-origin: 91px 132px; }
+        .organ-brain { animation: organGlow 3.5s ease-in-out infinite; }
+        .organ-lung  { animation: organGlow 4s ease-in-out infinite 1s; }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            .hero-layout { grid-template-columns: 1fr; gap: 40px; }
-            .hero-visual { min-height: auto; order: -1; }
-            .vital-dashboard { width: 360px; height: 420px; }
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1050px) {
+            .hero { grid-template-columns: 1fr; min-height: auto; padding: 40px 0 60px; gap: 50px; }
+            .hero-visual { justify-content: center; min-height: 560px; order: -1; }
+            .visual-glow { right: auto; left: 50%; transform: translate(-50%, -50%); }
         }
-
         @media (max-width: 768px) {
             .container { padding: 0 25px; }
             header { flex-direction: column; gap: 20px; text-align: center; align-items: center; }
             .logo-section { align-items: center; }
-            .hero { min-height: auto; padding: 30px 0 50px; }
-            .vital-dashboard { width: 300px; height: 360px; }
-            .dashboard-inner { padding: 18px 16px 14px; gap: 9px; }
-            .metric-value { font-size: 2.4em; }
             h1 { font-size: 2em; }
             .cta-group { flex-direction: column; }
             .btn { width: 100%; text-align: center; }
@@ -238,7 +336,9 @@
             .footer-content { flex-direction: column; text-align: center; }
             .footer-logo-section { align-items: center; }
             .footer-links { flex-direction: column; gap: 15px; }
-            .dot-tl, .dot-bl, .float-badge { display: none; }
+            .callout { display: none; }
+            .anatomy-panel { width: 260px; }
+            .anatomy-svg { width: 160px; }
         }
     </style>
 </head>
@@ -249,7 +349,7 @@
         <header>
             <div class="logo-section">
                 <img src="assets/logo.png" alt="VistaLogic Logo" class="logo-img" />
-                <div class="company-tagline">Innovation Through Precision & Clarity</div>
+                <div class="company-tagline">Innovation Through Precision &amp; Clarity</div>
             </div>
             <div class="status">
                 <span class="status-dot"></span>
@@ -257,124 +357,252 @@
             </div>
         </header>
 
+        <!-- ═══════════════════ HERO ═══════════════════ -->
         <section class="hero">
-            <div class="hero-layout">
-                <div class="hero-content">
-                    <h1>
-                        Building the Future of<br>
-                        <span class="gradient-text">Precision Wellness and Fitness</span>
-                    </h1>
-                    <p class="hero-description">
-                        We're creating intelligent wellness and fitness monitoring systems that transform how people understand and optimize their wellbeing. Our platform delivers personalized recommendations powered by AI, helping you make smarter choices. From individuals to enterprises, we're making your health insights accessible to everyone.
-                    </p>
-                    <div class="cta-group">
-                        <a href="#contact" class="btn btn-primary">Get in Touch</a>
-                        <a href="#mission" class="btn btn-secondary">Our Mission</a>
-                    </div>
-                </div>
 
-                <!-- Vital-OS Dashboard Infographic -->
-                <div class="hero-visual">
-                    <div class="vital-dashboard">
-                        <div class="dashboard-ring"></div>
-
-                        <div class="float-badge">
-                            <div class="float-badge-val">98%</div>
-                            <div class="float-badge-lbl">Accuracy</div>
-                        </div>
-
-                        <div class="dot-tl">⌚</div>
-                        <div class="dot-bl">🧠</div>
-
-                        <div class="dashboard-inner">
-                            <div class="dash-header">
-                                <div class="dash-title">Vital-OS · Live Feed</div>
-                                <div class="dash-live">
-                                    <span class="dash-live-dot"></span>
-                                    Monitoring
-                                </div>
-                            </div>
-
-                            <div class="metric-main">
-                                <div>
-                                    <div class="metric-label">Heart Rate</div>
-                                    <div class="metric-value">
-                                        <span id="hr-val">72</span><span class="metric-unit">bpm</span>
-                                    </div>
-                                </div>
-                                <div class="metric-delta">↑ Optimal Zone</div>
-                            </div>
-
-                            <!-- Animated ECG waveform -->
-                            <div class="ecg-container">
-                                <svg class="ecg-svg" viewBox="0 0 800 54" preserveAspectRatio="none" fill="none">
-                                    <polyline points="0,27 30,27 42,27 52,8 62,48 72,3 82,52 92,27 122,27 160,27 172,27 182,8 192,48 202,3 212,52 222,27 252,27 290,27 302,27 312,8 322,48 332,3 342,52 352,27 382,27 400,27" stroke="#00d4aa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <polyline points="400,27 430,27 442,27 452,8 462,48 472,3 482,52 492,27 522,27 560,27 572,27 582,8 592,48 602,3 612,52 622,27 652,27 690,27 702,27 712,8 722,48 732,3 742,52 752,27 782,27 800,27" stroke="#00d4aa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <polyline points="0,27 30,27 42,27 52,8 62,48 72,3 82,52 92,27 122,27 160,27 172,27 182,8 192,48 202,3 212,52 222,27 252,27 290,27 302,27 312,8 322,48 332,3 342,52 352,27 382,27 400,27" stroke="#00ffc8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.12"/>
-                                    <polyline points="400,27 430,27 442,27 452,8 462,48 472,3 482,52 492,27 522,27 560,27 572,27 582,8 592,48 602,3 612,52 622,27 652,27 690,27 702,27 712,8 722,48 732,3 742,52 752,27 782,27 800,27" stroke="#00ffc8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.12"/>
-                                </svg>
-                            </div>
-
-                            <div class="mini-metrics">
-                                <div class="mini-card">
-                                    <div class="mini-icon">🩸</div>
-                                    <div class="mini-val">98<span style="font-size:0.6em;color:var(--text-dim)">%</span></div>
-                                    <div class="mini-lbl">SpO₂</div>
-                                </div>
-                                <div class="mini-card">
-                                    <div class="mini-icon">🔥</div>
-                                    <div class="mini-val">1,840</div>
-                                    <div class="mini-lbl">Calories</div>
-                                </div>
-                                <div class="mini-card">
-                                    <div class="mini-icon">😴</div>
-                                    <div class="mini-val">7.4<span style="font-size:0.6em;color:var(--text-dim)">h</span></div>
-                                    <div class="mini-lbl">Sleep</div>
-                                </div>
-                            </div>
-
-                            <div class="progress-section">
-                                <div class="progress-row">
-                                    <div class="progress-meta">
-                                        <span class="progress-name">Daily Steps</span>
-                                        <span class="progress-pct">8,420 / 10k</span>
-                                    </div>
-                                    <div class="progress-track">
-                                        <div class="progress-fill fill-green" style="width:84%; animation-delay:0.2s"></div>
-                                    </div>
-                                </div>
-                                <div class="progress-row">
-                                    <div class="progress-meta">
-                                        <span class="progress-name">Hydration</span>
-                                        <span class="progress-pct">1.6 / 2.5L</span>
-                                    </div>
-                                    <div class="progress-track">
-                                        <div class="progress-fill fill-blue" style="width:64%; animation-delay:0.4s"></div>
-                                    </div>
-                                </div>
-                                <div class="progress-row">
-                                    <div class="progress-meta">
-                                        <span class="progress-name">Recovery Score</span>
-                                        <span class="progress-pct">91%</span>
-                                    </div>
-                                    <div class="progress-track">
-                                        <div class="progress-fill fill-purple" style="width:91%; animation-delay:0.6s"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="ai-chip">
-                                <span class="ai-chip-icon">✦</span>
-                                <div class="ai-chip-text">
-                                    <strong>AI Insight:</strong> Your HRV trend suggests excellent recovery — ideal window for high-intensity training today.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- LEFT: copy from index1 -->
+            <div class="hero-content">
+                <h1>
+                    Building the Future of<br>
+                    <span class="gradient-text">Precision Wellness and Fitness</span>
+                </h1>
+                <p class="hero-description">
+                    We're creating intelligent wellness and fitness monitoring systems that transform how people understand and optimize their wellbeing. Our platform delivers personalized recommendations powered by AI, helping you make smarter choices. From individuals to enterprises, we're making your health insights accessible to everyone.
+                </p>
+                <div class="cta-group">
+                    <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                    <a href="#mission" class="btn btn-secondary">Our Mission</a>
                 </div>
             </div>
+
+            <!-- RIGHT: anatomy infographic from index2 -->
+            <div class="hero-visual">
+                <div class="visual-glow"></div>
+
+                <div class="anatomy-panel">
+
+                    <!-- ── LEFT callouts: [chip]──[line]──[●] pointing right onto body ── -->
+
+                    <!-- Brain ~ SVG y=26, top = 26-10 = 16px -->
+                    <div class="callout c-brain">
+                        <div class="callout-chip">
+                            <div class="chip-lbl">Neural Activity</div>
+                            <div class="chip-val cv-blue">Optimal</div>
+                        </div>
+                        <div class="callout-line" style="width:32px; background:linear-gradient(90deg,rgba(0,212,170,.15),rgba(0,212,170,.65));"></div>
+                        <div class="callout-dot"></div>
+                    </div>
+
+                    <!-- Heart ~ SVG y=138, top = 138-12 = 126px -->
+                    <div class="callout c-heart">
+                        <div class="callout-chip">
+                            <div class="chip-lbl">Heart Rate</div>
+                            <div class="chip-val cv-teal" id="bpmChip">72 BPM</div>
+                        </div>
+                        <div class="callout-line" style="width:28px; background:linear-gradient(90deg,rgba(0,212,170,.15),rgba(0,212,170,.65));"></div>
+                        <div class="callout-dot"></div>
+                    </div>
+
+                    <!-- Lung (lower lobe left) ~ SVG y=160, top = 160-10 = 150px -->
+                    <div class="callout c-lung">
+                        <div class="callout-chip">
+                            <div class="chip-lbl">Lung Capacity</div>
+                            <div class="chip-val cv-teal">96%</div>
+                        </div>
+                        <div class="callout-line" style="width:22px; background:linear-gradient(90deg,rgba(0,212,170,.15),rgba(0,212,170,.65));"></div>
+                        <div class="callout-dot"></div>
+                    </div>
+
+                    <!-- ── RIGHT callouts: [●]──[line]──[chip] pointing left onto body ── -->
+
+                    <!-- Body Temp ~ shoulder SVG y=92, top = 92-10 = 82px -->
+                    <div class="callout c-temp">
+                        <div class="callout-dot"></div>
+                        <div class="callout-line" style="width:28px; background:linear-gradient(90deg,rgba(0,212,170,.65),rgba(0,212,170,.15));"></div>
+                        <div class="callout-chip">
+                            <div class="chip-lbl">Body Temp</div>
+                            <div class="chip-val cv-amber">36.6°C</div>
+                        </div>
+                    </div>
+
+                    <!-- Blood O₂ ~ chest right SVG y=120, top = 120-10 = 110px -->
+                    <div class="callout c-spo2">
+                        <div class="callout-dot"></div>
+                        <div class="callout-line" style="width:28px; background:linear-gradient(90deg,rgba(0,212,170,.65),rgba(0,212,170,.15));"></div>
+                        <div class="callout-chip">
+                            <div class="chip-lbl">Blood O₂</div>
+                            <div class="chip-val cv-teal">98%</div>
+                        </div>
+                    </div>
+
+                    <!-- Steps Today ~ mid-thigh SVG y=310, top = 310-10 = 300px -->
+                    <div class="callout c-steps">
+                        <div class="callout-dot"></div>
+                        <div class="callout-line" style="width:28px; background:linear-gradient(90deg,rgba(0,212,170,.65),rgba(0,212,170,.15));"></div>
+                        <div class="callout-chip">
+                            <div class="chip-lbl">Steps Today</div>
+                            <div class="chip-val cv-blue">8,420</div>
+                        </div>
+                    </div>
+
+                    <!-- ── BODY SVG ── -->
+                    <svg class="anatomy-svg" viewBox="0 0 200 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="bGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%"   stop-color="#00d4aa" stop-opacity="0.75"/>
+                                <stop offset="60%"  stop-color="#0099ff" stop-opacity="0.55"/>
+                                <stop offset="100%" stop-color="#00d4aa" stop-opacity="0.45"/>
+                            </linearGradient>
+                            <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%"   stop-color="#00d4aa" stop-opacity="0.08"/>
+                                <stop offset="100%" stop-color="#0099ff" stop-opacity="0.04"/>
+                            </linearGradient>
+                            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%"   stop-color="#00d4aa"/>
+                                <stop offset="100%" stop-color="#0099ff"/>
+                            </linearGradient>
+                            <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%"   stop-color="#00d4aa" stop-opacity="0"/>
+                                <stop offset="50%"  stop-color="#00d4aa" stop-opacity="0.38"/>
+                                <stop offset="100%" stop-color="#00d4aa" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Head -->
+                        <ellipse cx="100" cy="36" rx="32" ry="35" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.4"/>
+                        <!-- Neck -->
+                        <path d="M90 69 L90 88 Q90 92 100 92 Q110 92 110 88 L110 69 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <!-- Torso -->
+                        <path d="M64 90 Q56 96 54 112 L48 196 Q48 208 60 210 L76 212 L78 235 L122 235 L124 212 L140 210 Q152 208 152 196 L146 112 Q144 96 136 90 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.5"/>
+                        <!-- Clavicles -->
+                        <path d="M70 93 Q62 90 54 96"   stroke="url(#bGrad)" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+                        <path d="M130 93 Q138 90 146 96" stroke="url(#bGrad)" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+                        <!-- L arm -->
+                        <path d="M54 108 Q40 116 36 144 L32 188 Q30 198 38 200 L46 200 Q52 198 52 190 L50 152 L60 116 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.4"/>
+                        <path d="M36 198 Q30 216 30 240 L32 258 Q34 264 40 262 L46 258 Q50 254 48 246 L46 222 L44 200 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <ellipse cx="38" cy="270" rx="10" ry="13" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.2"/>
+                        <!-- R arm -->
+                        <path d="M146 108 Q160 116 164 144 L168 188 Q170 198 162 200 L154 200 Q148 198 148 190 L150 152 L140 116 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.4"/>
+                        <path d="M164 198 Q170 216 170 240 L168 258 Q166 264 160 262 L154 258 Q150 254 152 246 L154 222 L156 200 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <ellipse cx="162" cy="270" rx="10" ry="13" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.2"/>
+                        <!-- Hips -->
+                        <path d="M76 232 L74 255 Q72 268 62 272 L56 273 Q48 271 48 262 L50 245 L54 232 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <path d="M124 232 L126 255 Q128 268 138 272 L144 273 Q152 271 152 262 L150 245 L146 232 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <!-- L leg -->
+                        <path d="M56 271 Q50 290 50 320 L50 358 Q50 370 60 372 L70 372 Q78 370 78 358 L78 316 L82 270 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.4"/>
+                        <path d="M52 370 Q50 390 52 410 L54 422 Q56 428 64 426 L70 424 Q76 420 74 412 L72 392 L68 372 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <path d="M52 422 Q44 430 42 436 L74 436 L78 424 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.2"/>
+                        <!-- R leg -->
+                        <path d="M144 271 Q150 290 150 320 L150 358 Q150 370 140 372 L130 372 Q122 370 122 358 L122 316 L118 270 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.4"/>
+                        <path d="M148 370 Q150 390 148 410 L146 422 Q144 428 136 426 L130 424 Q124 420 126 412 L128 392 L132 372 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.3"/>
+                        <path d="M148 422 Q156 430 158 436 L126 436 L122 424 Z" fill="url(#fillGrad)" stroke="url(#bGrad)" stroke-width="1.2"/>
+
+                        <!-- BRAIN -->
+                        <g class="organ-brain">
+                            <ellipse cx="100" cy="26" rx="22" ry="18" fill="rgba(0,153,255,0.12)" stroke="rgba(77,184,255,0.5)" stroke-width="1.1"/>
+                            <line x1="100" y1="10" x2="100" y2="44" stroke="rgba(77,184,255,0.35)" stroke-width="0.8"/>
+                            <path d="M84 18 Q80 24 84 30 Q80 36 84 42" fill="none" stroke="rgba(77,184,255,0.28)" stroke-width="0.7" stroke-linecap="round"/>
+                            <path d="M116 18 Q120 24 116 30 Q120 36 116 42" fill="none" stroke="rgba(77,184,255,0.28)" stroke-width="0.7" stroke-linecap="round"/>
+                        </g>
+
+                        <!-- HEART -->
+                        <g class="organ-heart">
+                            <path d="M91 128 Q87 122 82 124 Q76 126 78 135 L91 150 L104 135 Q106 126 100 124 Q95 122 91 128 Z" fill="rgba(0,212,170,0.28)" stroke="rgba(0,212,170,0.75)" stroke-width="1.3"/>
+                            <path d="M91 128 L91 118 Q91 114 96 114 L100 114" fill="none" stroke="rgba(0,212,170,0.45)" stroke-width="1" stroke-linecap="round"/>
+                        </g>
+
+                        <!-- LUNGS -->
+                        <g class="organ-lung">
+                            <path d="M72 112 Q64 120 64 142 Q64 160 70 165 L82 165 Q88 160 88 142 Q88 118 80 112 Z" fill="rgba(0,212,170,0.1)" stroke="rgba(0,212,170,0.38)" stroke-width="1.1"/>
+                            <path d="M128 112 Q136 120 136 142 Q136 160 130 165 L118 165 Q112 160 112 142 Q112 118 120 112 Z" fill="rgba(0,212,170,0.1)" stroke="rgba(0,212,170,0.38)" stroke-width="1.1"/>
+                            <path d="M100 92 L100 114" stroke="rgba(0,212,170,0.4)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M100 114 L84 116 M100 114 L116 116" stroke="rgba(0,212,170,0.32)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                        </g>
+
+                        <!-- STOMACH -->
+                        <path d="M94 170 Q84 172 82 182 Q82 192 90 194 L108 194 Q116 192 116 180 Q114 170 104 170 Z" fill="rgba(0,153,255,0.07)" stroke="rgba(77,184,255,0.28)" stroke-width="1"/>
+
+                        <!-- INTESTINES -->
+                        <path d="M80 200 Q74 206 82 212 Q92 218 102 212 Q112 206 120 212 Q126 218 120 224 L80 224" fill="none" stroke="rgba(0,212,170,0.18)" stroke-width="1" stroke-linecap="round"/>
+
+                        <!-- SPINE -->
+                        <g opacity="0.5">
+                            <rect x="97" y="102" width="6" height="4" rx="1" fill="rgba(0,212,170,0.70)"/>
+                            <rect x="97" y="110" width="6" height="4" rx="1" fill="rgba(0,212,170,0.65)"/>
+                            <rect x="97" y="118" width="6" height="4" rx="1" fill="rgba(0,212,170,0.60)"/>
+                            <rect x="97" y="126" width="6" height="4" rx="1" fill="rgba(0,212,170,0.55)"/>
+                            <rect x="97" y="134" width="6" height="4" rx="1" fill="rgba(0,212,170,0.50)"/>
+                            <rect x="97" y="142" width="6" height="4" rx="1" fill="rgba(0,212,170,0.50)"/>
+                            <rect x="97" y="150" width="6" height="4" rx="1" fill="rgba(0,212,170,0.45)"/>
+                            <rect x="97" y="158" width="6" height="4" rx="1" fill="rgba(0,212,170,0.40)"/>
+                            <rect x="97" y="166" width="6" height="4" rx="1" fill="rgba(0,212,170,0.38)"/>
+                            <rect x="97" y="174" width="6" height="4" rx="1" fill="rgba(0,212,170,0.34)"/>
+                            <rect x="97" y="182" width="6" height="4" rx="1" fill="rgba(0,212,170,0.30)"/>
+                            <rect x="97" y="190" width="6" height="4" rx="1" fill="rgba(0,212,170,0.26)"/>
+                        </g>
+
+                        <!-- RIBS -->
+                        <g fill="none" stroke="rgba(0,212,170,0.25)" stroke-width="0.8" stroke-linecap="round">
+                            <path d="M86 116 Q74 120 68 130"/>
+                            <path d="M86 122 Q72 128 66 140"/>
+                            <path d="M86 130 Q72 138 68 152"/>
+                            <path d="M86 138 Q74 146 70 158"/>
+                            <path d="M114 116 Q126 120 132 130"/>
+                            <path d="M114 122 Q128 128 134 140"/>
+                            <path d="M114 130 Q128 138 132 152"/>
+                            <path d="M114 138 Q126 146 130 158"/>
+                        </g>
+
+                        <!-- JOINTS -->
+                        <circle cx="58"  cy="100" r="5.5" fill="rgba(0,212,170,0.10)" stroke="rgba(0,212,170,0.40)" stroke-width="1"/>
+                        <circle cx="142" cy="100" r="5.5" fill="rgba(0,212,170,0.10)" stroke="rgba(0,212,170,0.40)" stroke-width="1"/>
+                        <circle cx="38"  cy="202" r="5.5" fill="rgba(0,212,170,0.10)" stroke="rgba(0,212,170,0.32)" stroke-width="1"/>
+                        <circle cx="162" cy="202" r="5.5" fill="rgba(0,212,170,0.10)" stroke="rgba(0,212,170,0.32)" stroke-width="1"/>
+                        <circle cx="64"  cy="334" r="8"   fill="rgba(0,212,170,0.08)" stroke="rgba(0,212,170,0.32)" stroke-width="1"/>
+                        <circle cx="136" cy="334" r="8"   fill="rgba(0,212,170,0.08)" stroke="rgba(0,212,170,0.32)" stroke-width="1"/>
+                        <circle cx="60"  cy="414" r="5.5" fill="rgba(0,212,170,0.07)" stroke="rgba(0,212,170,0.25)" stroke-width="1"/>
+                        <circle cx="140" cy="414" r="5.5" fill="rgba(0,212,170,0.07)" stroke="rgba(0,212,170,0.25)" stroke-width="1"/>
+
+                        <!-- SCAN LINE -->
+                        <rect id="scanLine" x="50" y="20" width="100" height="5" rx="2.5" fill="url(#scanGrad)" opacity="0"/>
+                    </svg>
+
+                    <!-- ECG strip -->
+                    <div class="ecg-strip">
+                        <div class="ecg-top">
+                            <span class="ecg-label">ECG · Heart Rhythm</span>
+                            <div class="ecg-bpm-pill">
+                                <span class="ecg-bpm-val" id="bpmVal">72</span>
+                                <span class="ecg-bpm-unit">BPM</span>
+                            </div>
+                        </div>
+                        <svg class="ecg-svg" viewBox="0 0 310 40" preserveAspectRatio="none">
+                            <path class="ecg-glow ecg-anim" d="M0,22 L26,22 L32,22 L36,6 L40,36 L44,14 L48,26 L52,26 L76,26 L82,26 L86,4 L90,38 L94,12 L98,26 L102,26 L126,26 L132,26 L136,6 L140,38 L144,14 L148,26 L152,26 L176,26 L182,26 L186,4 L190,40 L194,12 L198,26 L202,26 L226,26 L232,26 L236,6 L240,36 L244,14 L248,26 L252,26 L310,26"/>
+                            <path class="ecg-path ecg-anim" d="M0,22 L26,22 L32,22 L36,6 L40,36 L44,14 L48,26 L52,26 L76,26 L82,26 L86,4 L90,38 L94,12 L98,26 L102,26 L126,26 L132,26 L136,6 L140,38 L144,14 L148,26 L152,26 L176,26 L182,26 L186,4 L190,40 L194,12 L198,26 L202,26 L226,26 L232,26 L236,6 L240,36 L244,14 L248,26 L252,26 L310,26"/>
+                        </svg>
+                    </div>
+
+                    <!-- Wellness score -->
+                    <div class="score-pill">
+                        <div class="score-ring-wrap">
+                            <svg class="score-ring-svg" viewBox="0 0 42 42">
+                                <circle class="ring-bg"   cx="21" cy="21" r="17"/>
+                                <circle class="ring-fill" cx="21" cy="21" r="17"/>
+                            </svg>
+                            <div class="score-num-inside">87</div>
+                        </div>
+                        <div class="score-text-block">
+                            <h4>Wellness Score · Excellent</h4>
+                            <p>All vitals optimal. Great consistency this week.</p>
+                        </div>
+                    </div>
+
+                </div><!-- /anatomy-panel -->
+            </div><!-- /hero-visual -->
+
         </section>
 
+        <!-- ═══════════════════ MISSION ═══════════════════ -->
         <section id="mission" class="mission reveal">
             <h2 class="section-title">Our Mission</h2>
             <p class="section-description">
@@ -399,6 +627,7 @@
             </div>
         </section>
 
+        <!-- ═══════════════════ PRODUCT ═══════════════════ -->
         <section class="product-preview reveal">
             <h2 class="section-title">Introducing Vital-OS</h2>
             <div class="product-box">
@@ -415,6 +644,7 @@
             </div>
         </section>
 
+        <!-- ═══════════════════ CONTACT ═══════════════════ -->
         <section id="contact" class="contact reveal">
             <div class="contact-box">
                 <h2>Let's Connect</h2>
@@ -434,7 +664,7 @@
                 <nav class="footer-links">
                     <a href="#mission">Mission</a>
                     <a href="#contact">Contact</a>
-                    <a href="mailto:info@vistalogic.com">Email</a>
+                    <a href="/cdn-cgi/l/email-protection#61080f070e2117081215000d0e0608024f020e0c">Email</a>
                     <a href="#">Privacy</a>
                 </nav>
             </div>
@@ -443,16 +673,42 @@
     </div>
 
     <script>
-        // Scroll Reveal
+        // ── Scan line ──
+        const scanLine = document.getElementById('scanLine');
+        let scanY = 20, scanDir = 1;
+        function animateScan() {
+            scanY += scanDir * 1.4;
+            if (scanY > 430) scanDir = -1;
+            if (scanY < 20)  scanDir =  1;
+            const mid = (430 + 20) / 2;
+            const opacity = Math.max(0, 0.75 - Math.abs(scanY - mid) / mid);
+            scanLine.setAttribute('y', scanY);
+            scanLine.setAttribute('opacity', opacity.toFixed(2));
+            requestAnimationFrame(animateScan);
+        }
+        animateScan();
+
+        // ── BPM flicker — syncs both the ECG strip counter and the heart-rate callout ──
+        const bpmValEl  = document.getElementById('bpmVal');
+        const bpmChipEl = document.getElementById('bpmChip');
+        setInterval(() => {
+            const v = 70 + Math.floor(Math.random() * 7);
+            if (bpmValEl)  bpmValEl.textContent  = v;
+            if (bpmChipEl) bpmChipEl.textContent = v + ' BPM';
+        }, 2600);
+
+        // ── Scroll reveal ──
         const reveals = document.querySelectorAll('.reveal');
         const revealOnScroll = () => {
             const h = window.innerHeight;
-            reveals.forEach(el => { if (el.getBoundingClientRect().top < h - 100) el.classList.add('active'); });
+            reveals.forEach(el => {
+                if (el.getBoundingClientRect().top < h - 100) el.classList.add('active');
+            });
         };
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll();
 
-        // Smooth Scroll
+        // ── Smooth scroll ──
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
                 e.preventDefault();
@@ -461,20 +717,11 @@
             });
         });
 
-        // Live heart rate animation
-        let hr = 72;
-        setInterval(() => {
-            hr = Math.max(64, Math.min(82, hr + Math.floor(Math.random() * 5) - 2));
-            const el = document.getElementById('hr-val');
-            if (el) el.textContent = hr;
-        }, 2200);
-
-        // Form
+        // ── Contact form ──
         document.querySelector('.email-form').addEventListener('submit', e => {
             e.preventDefault();
             const email = document.querySelector('.email-input').value;
-            alert(`Thank you for your interest! We'll contact ${email} shortly.`);
-            document.querySelector('.email-input').value = '';
+            alert(`Thank you! We'll be in touch at ${email}`);
         });
     </script>
 </body>
