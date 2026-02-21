@@ -118,14 +118,15 @@
         }
 
         .hero-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            display: flex;
+            gap: 48px;
             align-items: center;
+            justify-content: space-between;
         }
 
         .hero-content {
-            max-width: 650px;
+            max-width: 520px;
+            margin-bottom: 0;
         }
 
         .hero-visual {
@@ -133,28 +134,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 500px;
+            min-height: 320px;
         }
 
         .infographic {
             width: 100%;
-            max-width: 420px;
+            max-width: 320px;
             position: relative;
             margin: 0 auto;
+            padding: 8px 0;
         }
 
         .infographic-circle {
             width: 100%;
             aspect-ratio: 1;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(0, 212, 170, 0.12), rgba(0, 153, 255, 0.12));
-            border: 2px solid rgba(0, 212, 170, 0.3);
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.09), rgba(0, 153, 255, 0.09));
+            border: 2px solid rgba(0, 212, 170, 0.22);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             animation: float 6s ease-in-out infinite;
-            box-shadow: 0 0 60px rgba(0, 212, 170, 0.15);
+            box-shadow: 0 0 32px rgba(0, 212, 170, 0.10);
         }
 
         .infographic-center {
@@ -162,13 +164,13 @@
         }
 
         .infographic-icon {
-            font-size: 4.5em;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 20px rgba(0, 212, 170, 0.5));
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 170, 0.4));
         }
 
         .infographic-text {
-            font-size: 0.95em;
+            font-size: 0.85em;
             color: var(--primary);
             font-weight: 600;
             letter-spacing: 0.05em;
@@ -177,16 +179,16 @@
 
         .orbit-item {
             position: absolute;
-            width: 85px;
-            height: 85px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 170, 0.3);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(0, 212, 170, 0.22);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2em;
+            font-size: 1.2em;
         }
 
         .orbit-1 {
@@ -710,7 +712,7 @@
                         <span class="gradient-text">Precision Wellness and Fitness</span>
                     </h1>
                     <p class="hero-description">
-                        We're creating intelligent wellness and fitness monitoring systems that transform how people understand and optimize their wellbeing. Our platform delivers personalized recommendations powered by AI, helping you make smarter choices. From individuals to enterprises, we're making your health insights accessible to everyone.
+                        Intelligent wellness and fitness monitoring, powered by AI. Personalized recommendations and actionable insights help you make smarter choices. From individuals to enterprises, we make your health data meaningful and accessible.
                     </p>
                     <div class="cta-group">
                         <a href="#contact" class="btn btn-primary">Get in Touch</a>
