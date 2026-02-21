@@ -61,11 +61,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            align-items: center;
-            padding: 0 0 60px;
+            align-items: start;
+            padding: 60px 0 60px;
         }
 
-        .hero-content { max-width: 580px; }
+        .hero-content { max-width: 580px; padding-top: 20px; }
 
         /* ── RIGHT: anatomy visual ── */
         /*
@@ -94,9 +94,9 @@
         .hero-visual {
             position: relative;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: flex-end;
-            min-height: 620px;
+            padding-top: 20px;
         }
 
         .visual-glow {
@@ -224,7 +224,7 @@
         /* ── TYPOGRAPHY ── */
         h1 {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(2em, 5vw, 3.6em);
+            font-size: clamp(2em, 5vw, 3.8em);
             font-weight: 400; line-height: 1.12;
             margin-bottom: 28px; letter-spacing: -0.02em;
             animation: fadeIn 0.8s ease-out 0.5s both;
@@ -318,8 +318,9 @@
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1050px) {
-            .hero { grid-template-columns: 1fr; min-height: auto; padding: 40px 0 60px; gap: 50px; }
-            .hero-visual { justify-content: center; min-height: 560px; order: -1; }
+            .hero { grid-template-columns: 1fr; min-height: auto; padding: 40px 0 60px; gap: 50px; align-items: start; }
+            .hero-content { padding-top: 0; }
+            .hero-visual { justify-content: center; align-items: flex-start; padding-top: 0; order: -1; }
             .visual-glow { right: auto; left: 50%; transform: translate(-50%, -50%); }
         }
         @media (max-width: 768px) {
@@ -364,7 +365,7 @@
             <div class="hero-content">
                 <h1>
                     Building the Future of<br>
-                    <span class="gradient-text">Precision Wellness & Fitness</span>
+                    <span class="gradient-text">Precision Wellness and Fitness</span>
                 </h1>
                 <p class="hero-description">
                     We're creating intelligent wellness and fitness monitoring systems that transform how people understand and optimize their wellbeing. Our platform delivers personalized recommendations powered by AI, helping you make smarter choices. From individuals to enterprises, we're making your health insights accessible to everyone.
